@@ -17,11 +17,11 @@ RSpec.describe "/boards", type: :request do
   # Board. As you add validations to Board, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {name: "My Board", email: "myemail@onesteptechnical.com", width: 10, height: 10, number_of_mines: 2}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {name: :invalid, email: 12, width: :invalid, height: :invalid, number_of_mines: :invalid}
   }
 
   describe "GET /index" do
@@ -78,7 +78,7 @@ RSpec.describe "/boards", type: :request do
 
       it "renders a successful response (i.e. to display the 'new' template)" do
         post boards_url, params: { board: invalid_attributes }
-        expect(response).to be_successful
+        expect(response).to be_unprocessable
       end
     end
   end
@@ -86,14 +86,14 @@ RSpec.describe "/boards", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {name: "NewName"}
       }
 
       it "updates the requested board" do
         board = Board.create! valid_attributes
         patch board_url(board), params: { board: new_attributes }
         board.reload
-        skip("Add assertions for updated state")
+        expect(board.name).to eq "NewName"
       end
 
       it "redirects to the board" do
@@ -108,7 +108,7 @@ RSpec.describe "/boards", type: :request do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         board = Board.create! valid_attributes
         patch board_url(board), params: { board: invalid_attributes }
-        expect(response).to be_successful
+        expect(response).to be_unprocessable
       end
     end
   end

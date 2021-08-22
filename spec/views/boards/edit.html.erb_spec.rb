@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "boards/edit", type: :view do
   before(:each) do
     @board = assign(:board, Board.create!(
-      email: "MyString",
+      email: "myemail@onestep.com",
       width: 1,
       height: 1,
       number_of_mines: 1,
