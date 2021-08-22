@@ -32,14 +32,13 @@ RSpec.describe GenerateBoard do
       expect(height).to eq board_height 
     end
 
-    it "has all the sub-arrays of the same height" do
-      # Make the width and height at least 25x25 so the random number of mines is not less than the board size
+    it "generates the correct number of mines" do
       generator = described_class.new(width: rand(5..100), height: rand(5..100), number_of_mines: rand(1...25))
-      height = generator.board.first.length 
+      requested_number_of_mines = generator.number_of_mines
 
-      sub_arrays_are_same_height = generator.board.all? { |sub_array| sub_array.length == height }
+      actual_number_of_mines = generator.board.sum(&:sum)
 
-      expect(sub_arrays_are_same_height).to be true
+      expect(actual_number_of_mines).to be requested_number_of_mines
     end
   end
 end
