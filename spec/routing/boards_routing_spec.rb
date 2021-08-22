@@ -10,6 +10,10 @@ RSpec.describe BoardsController, type: :routing do
       expect(get: "/boards/new").to route_to("boards#new")
     end
 
+    it "routes the root to #new" do
+      expect(get: "/").to route_to("boards#new")
+    end
+
     it "routes to #show" do
       expect(get: "/boards/1").to route_to("boards#show", id: "1")
     end
