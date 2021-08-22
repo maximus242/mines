@@ -4,4 +4,8 @@ class Board < ApplicationRecord
   validates :number_of_mines, numericality: { only_integer: true }
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :name, presence: true
+
+  serialize :array
+  serialize :blank
+
 end

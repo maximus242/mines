@@ -1,5 +1,14 @@
 <h1>New Board</h1>
 
 <%= render 'form', board: @board %>
+<ul>
+<% @recent_boards.each do |board| %>
+  <li> 
+    <%= link_to board.name, board_path(board) %>
+    <%= board.email %>
+    <%= board.created_at %>
+  </li>
+<% end %>
+</ul>
 
-<%= link_to 'Back', boards_path %>
+<%= link_to 'view all generated boards', boards_path %>

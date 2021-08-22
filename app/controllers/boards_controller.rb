@@ -1,3 +1,5 @@
+require_relative "#{Rails.root}/lib/generate_board"
+
 class BoardsController < ApplicationController
   before_action :set_board, only: %i[ show edit update destroy ]
 
@@ -12,6 +14,7 @@ class BoardsController < ApplicationController
 
   # GET /boards/new
   def new
+    @recent_boards = Board.all.order(created_at: :desc).limit(10)
     @board = Board.new
   end
 
@@ -22,6 +25,14 @@ class BoardsController < ApplicationController
   # POST /boards or /boards.json
   def create
     @board = Board.new(board_params)
+
+    @generator = GenerateBoard.new(width: @board.width, height: @board.height, number_of_mines: @board.number_of_mines)
+    @hidden_array = @generator.board
+    @blank_array = @generator.blank_board
+
+    @board.array = @hidden_array
+    @board.blank = @blank_array
+
 
     respond_to do |format|
       if @board.save
@@ -64,6 +75,6 @@ class BoardsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def board_params
-      params.require(:board).permit(:email, :width, :height, :number_of_mines, :name)
+      params.require(:board).permit(:email, :width, :height, :number_of_mines, :name, :array, :blank)
     end
 end

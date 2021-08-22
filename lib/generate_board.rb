@@ -1,10 +1,11 @@
 class GenerateBoard
-  attr_reader :board, :number_of_mines
+  attr_reader :board, :blank_board, :number_of_mines
   
   def initialize(width:, height:, number_of_mines:)
     @width, @height, @number_of_mines = width, height, number_of_mines
     @mine_count = 0
     @board = Array.new(@height) { Array.new(@width) { 0 } }
+    @blank_board = @board.dup
     set_board
   end
 

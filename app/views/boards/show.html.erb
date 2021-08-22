@@ -25,5 +25,14 @@
   <%= @board.name %>
 </p>
 
+<p>
+<% @board.array.each do |sub_array| %>
+  <% sub_array.each do |value| %>
+    <%= image_tag("#{value}.png", :size => "20x20") %>
+  <% end %>
+  <br/>
+<% end %>
+</p>
+
 <%= link_to 'Edit', edit_board_path(@board) %> |
 <%= link_to 'Back', boards_path %>
