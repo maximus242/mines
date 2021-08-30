@@ -10,9 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_21_041226) do
+ActiveRecord::Schema.define(version: 2021_08_30_035959) do
 
-  create_table "boards", force: :cascade do |t|
+  create_table "blanks", charset: "utf8mb3", force: :cascade do |t|
+    t.text "string"
+    t.integer "length"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "boards", charset: "utf8mb3", force: :cascade do |t|
     t.string "email"
     t.integer "width"
     t.integer "height"
@@ -24,4 +31,16 @@ ActiveRecord::Schema.define(version: 2021_08_21_041226) do
     t.text "blank"
   end
 
+  create_table "mines", charset: "utf8mb3", force: :cascade do |t|
+    t.integer "width"
+    t.integer "height"
+    t.bigint "board_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["board_id", "height", "width"], name: "index_mines_on_board_id_and_height_and_width"
+    t.index ["board_id", "width", "height"], name: "index_mines_on_board_id_and_width_and_height", unique: true
+    t.index ["board_id"], name: "index_mines_on_board_id"
+  end
+
+  add_foreign_key "mines", "boards"
 end
