@@ -10,7 +10,7 @@ class BoardsController < ApplicationController
 
   # GET /boards/1 or /boards/1.json
   def show
-    @mines = Mine.where(board_id: @board.id).order(height: :asc, width: :asc)
+    @mines = @board.mines.order(height: :asc, width: :asc)
     @tile = "\u2B1C ".freeze
     @bomb = "💣 ".freeze
   end
