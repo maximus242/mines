@@ -1,29 +1,20 @@
 class GenerateBoard
   attr_reader :board, :blank_board, :number_of_mines
-  
-  def initialize(width:, height:, number_of_mines:)
-    @width, @height, @number_of_mines = width, height, number_of_mines
-    @mine_count = 0
-    @board = Array.new(@height) { Array.new(@width) { 0 } }
-    @blank_board = @board.dup
+
+  def initialize(width:, height:, number_of_mines:, board:, amount: 1)
+    @width, @height, @number_of_mines, @board, @amount = width, height, number_of_mines, board, amount
     set_board
   end
 
   private
 
   def set_board 
-    mine_count = 0
-
-    while mine_count != @number_of_mines do
-      # Random Height
-      height = rand(0...@height)
-      # Random Width
-      width = rand(0...@width)
-      # Check Uniqueness
-      unless board[height][width] == 1
-        board[height][width] = 1
-        mine_count += 1
-      end
+    number_of_jobs.times do
+      MakeMineJob.perform_later(@width, @height, @board, @amount)
     end
+  end
+
+  def number_of_jobs
+    @number_of_mines
   end
 end

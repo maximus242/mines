@@ -1,38 +1,52 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Email:</strong>
-  <%= @board.email %>
+<strong>Email:</strong>
+<%= @board.email %>
 </p>
 
 <p>
-  <strong>Width:</strong>
-  <%= @board.width %>
+<strong>Width:</strong>
+<%= @board.width %>
 </p>
 
 <p>
-  <strong>Height:</strong>
-  <%= @board.height %>
+<strong>Height:</strong>
+<%= @board.height %>
 </p>
 
 <p>
-  <strong>Number of mines:</strong>
-  <%= @board.number_of_mines %>
+<strong>Number of mines:</strong>
+<%= @board.number_of_mines %>
 </p>
 
 <p>
-  <strong>Name:</strong>
-  <%= @board.name %>
-</p>
-
-<p>
-<% @board.array.each do |sub_array| %>
-  <% sub_array.each do |value| %>
-    <%= image_tag("#{value}.png", :size => "20x20") %>
-  <% end %>
-  <br/>
-<% end %>
+<strong>Name:</strong>
+<%= @board.name %>
 </p>
 
 <%= link_to 'Edit', edit_board_path(@board) %> |
 <%= link_to 'Back', boards_path %>
+<p />
+<% height = 0
+   width = 0
+%>
+<% @mines.each do |mine| %>
+  <%
+      mine_height = mine["height"]
+      mine_width = mine["width"]
+    
+      mine_position = (mine_height * @board.width) + mine_width
+      last_position = (height * @board.width) + width
+    
+      delta = mine_position - last_position
+  %>
+
+  <%= @tile * delta + @bomb %>
+  <%
+      height = mine_height
+      width = mine_width 
+  %>
+<% end %>
+
+<p />
