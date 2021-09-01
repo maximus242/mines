@@ -10,6 +10,10 @@ class BoardsController < ApplicationController
 
   # GET /boards/1 or /boards/1.json
   def show
+    # @mines = Mine.paginate(page: params[:page], per_page: 1000).order(height: :asc, width: :asc)
+    @mines = @board.mines.order(height: :asc, width: :asc).to_a
+    @tile = "\u2B1C ".freeze
+    @bomb = "💣 ".freeze
   end
 
   # GET /boards/new
@@ -26,16 +30,9 @@ class BoardsController < ApplicationController
   def create
     @board = Board.new(board_params)
 
-    @generator = GenerateBoard.new(width: @board.width, height: @board.height, number_of_mines: @board.number_of_mines)
-    @hidden_array = @generator.board
-    @blank_array = @generator.blank_board
-
-    @board.array = @hidden_array
-    @board.blank = @blank_array
-
-
     respond_to do |format|
       if @board.save
+        @generator = GenerateBoard.new(width: @board.width, height: @board.height, number_of_mines: @board.number_of_mines, board: @board.id)
         format.html { redirect_to @board, notice: "Board was successfully created." }
         format.json { render :show, status: :created, location: @board }
       else
@@ -68,13 +65,13 @@ class BoardsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_board
-      @board = Board.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_board
+    @board = Board.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def board_params
-      params.require(:board).permit(:email, :width, :height, :number_of_mines, :name, :array, :blank)
-    end
+  # Only allow a list of trusted parameters through.
+  def board_params
+    params.require(:board).permit(:email, :width, :height, :number_of_mines, :name, :array, :blank)
+  end
 end

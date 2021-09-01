@@ -1,38 +1,61 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Email:</strong>
-  <%= @board.email %>
+<strong>Email:</strong>
+<%= @board.email %>
 </p>
 
 <p>
-  <strong>Width:</strong>
-  <%= @board.width %>
+<strong>Width:</strong>
+<%= @board.width %>
 </p>
 
 <p>
-  <strong>Height:</strong>
-  <%= @board.height %>
+<strong>Height:</strong>
+<%= @board.height %>
 </p>
 
 <p>
-  <strong>Number of mines:</strong>
-  <%= @board.number_of_mines %>
+<strong>Number of mines:</strong>
+<%= @board.number_of_mines %>
 </p>
 
 <p>
-  <strong>Name:</strong>
-  <%= @board.name %>
-</p>
-
-<p>
-<% @board.array.each do |sub_array| %>
-  <% sub_array.each do |value| %>
-    <%= image_tag("#{value}.png", :size => "20x20") %>
-  <% end %>
-  <br/>
-<% end %>
+<strong>Name:</strong>
+<%= @board.name %>
 </p>
 
 <%= link_to 'Edit', edit_board_path(@board) %> |
 <%= link_to 'Back', boards_path %>
+<p />
+<% cell = 0 %>
+<% final_cell = (@board.width * @board.height)%>
+<% width = 0 %>
+<% @mines.each do |mine| %>
+
+  <% mine = (@board.width * mine.height) + mine.width %>
+
+  <% while cell < mine do %>
+    <%= @tile %>
+    <% cell += 1 %>
+
+    <% if width == @board.width - 1 %>
+      <% width = 0 %>
+      <br />
+    <% else %>
+      <% width += 1 %>
+    <% end %>
+  <% end %>
+
+
+  <%= @bomb %>
+
+  <% if width == @board.width - 1 %>
+    <% width = 0 %>
+    <br />
+  <% else %>
+    <% width += 1 %>
+  <% end %>
+
+  <% cell += 1 %>
+<% end %>

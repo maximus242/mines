@@ -8,4 +8,5 @@ class Board < ApplicationRecord
   serialize :array
   serialize :blank
 
+  has_many :mines
 end
