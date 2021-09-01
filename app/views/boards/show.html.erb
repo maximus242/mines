@@ -28,25 +28,34 @@
 <%= link_to 'Edit', edit_board_path(@board) %> |
 <%= link_to 'Back', boards_path %>
 <p />
-<% height = 0
-   width = 0
-%>
+<% cell = 0 %>
+<% final_cell = (@board.width * @board.height)%>
+<% width = 0 %>
 <% @mines.each do |mine| %>
-  <%
-      mine_height = mine["height"]
-      mine_width = mine["width"]
-    
-      mine_position = (mine_height * @board.width) + mine_width
-      last_position = (height * @board.width) + width
-    
-      delta = mine_position - last_position
-  %>
 
-  <%= @tile * delta + @bomb %>
-  <%
-      height = mine_height
-      width = mine_width 
-  %>
+  <% mine = (@board.width * mine.height) + mine.width %>
+
+  <% while cell < mine do %>
+    <%= @tile %>
+    <% cell += 1 %>
+
+    <% if width == @board.width - 1 %>
+      <% width = 0 %>
+      <br />
+    <% else %>
+      <% width += 1 %>
+    <% end %>
+  <% end %>
+
+
+  <%= @bomb %>
+
+  <% if width == @board.width - 1 %>
+    <% width = 0 %>
+    <br />
+  <% else %>
+    <% width += 1 %>
+  <% end %>
+
+  <% cell += 1 %>
 <% end %>
-
-<p />

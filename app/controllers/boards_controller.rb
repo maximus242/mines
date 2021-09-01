@@ -10,7 +10,8 @@ class BoardsController < ApplicationController
 
   # GET /boards/1 or /boards/1.json
   def show
-    @mines = @board.mines.order(height: :asc, width: :asc)
+    # @mines = Mine.paginate(page: params[:page], per_page: 1000).order(height: :asc, width: :asc)
+    @mines = @board.mines.order(height: :asc, width: :asc).to_a
     @tile = "\u2B1C ".freeze
     @bomb = "💣 ".freeze
   end

@@ -1,7 +1,7 @@
 class GenerateBoard
   attr_reader :board, :blank_board, :number_of_mines
 
-  LIMIT = 5000.0
+  LIMIT = 10.0
 
   def initialize(width:, height:, number_of_mines:, board:, amount: 1)
     @width, @height, @number_of_mines, @board, @amount = width, height, number_of_mines, board, amount
